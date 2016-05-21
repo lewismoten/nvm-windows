@@ -21,7 +21,7 @@ REM Build the executable
 echo Building NVM for Windows
 rm "%GOBIN%\nvm.exe"
 cd %GOPATH%
-goxc -arch="386" -os="windows" -n="nvm" -d="%GOBIN%" -o="%GOBIN%\nvm{{.Ext}}" -tasks-=package
+goxc -arch="386" -os="windows" -n="nvm" -d="%GOBIN%" -o="%GOBIN%\nvm{{.Ext}}" xc
 cd %ORIG%
 rm "%GOBIN%\src.exe"
 rm "%GOPATH%\src.exe"
