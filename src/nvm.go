@@ -291,8 +291,8 @@ func use(version string, cpuarch string) {
       fmt.Printf("Version not provided, and .nvmrc not found")
       panic(err)
     }
-    version = string(dat)
-    fmt.Printf("Found .nvmrc with v%s", version)
+    version = strings.TrimSpace(string(dat[:]))
+    fmt.Printf("Found .nvmrc with %s\n", version)
   }
 
   if version == "32" || version == "64" {
