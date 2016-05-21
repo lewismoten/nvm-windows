@@ -285,6 +285,16 @@ func uninstall(version string) {
 
 func use(version string, cpuarch string) {
 
+  if version == "" {
+    dat, err := ioutil.ReadFile(".nvmrc")
+    if err != nil {
+      fmt.Printf("Version not provided, and .nvmrc not found")
+      panic(err)
+    }
+    version = string(dat)
+    fmt.Printf("Found .nvmrc with v%s", version)
+  }
+
   if version == "32" || version == "64" {
     cpuarch = version
     v, _ := node.GetCurrentVersion()
