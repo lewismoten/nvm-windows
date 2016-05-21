@@ -6,11 +6,11 @@ SET GOBIN=%CD%\bin
 SET GOARCH=386
 
 REM Get the version number from the setup file
-for /f "tokens=*" %%i in ('findstr /n . %INNOSETUP% ^| findstr ^4:#define') do set L=%%i
+for /f "tokens=*" %%i in ('findstr /n . "%INNOSETUP%" ^| findstr ^4:#define') do set L=%%i
 set version=%L:~24,-1%
 
 REM Get the version number from the core executable
-for /f "tokens=*" %%i in ('findstr /n . %GOPATH%\nvm.go ^| findstr ^NvmVersion^| findstr ^21^') do set L=%%i
+for /f "tokens=*" %%i in ('findstr /n . "%GOPATH%\nvm.go" ^| findstr ^NvmVersion^| findstr ^20^') do set L=%%i
 set goversion=%L:~19,-1%
 
 IF NOT %version%==%goversion% GOTO VERSIONMISMATCH
@@ -19,13 +19,13 @@ SET DIST=%CD%\dist\%version%
 
 REM Build the executable
 echo Building NVM for Windows
-rm %GOBIN%\nvm.exe
+rm "%GOBIN%\nvm.exe"
 cd %GOPATH%
 goxc -arch="386" -os="windows" -n="nvm" -d="%GOBIN%" -o="%GOBIN%\nvm{{.Ext}}" -tasks-=package
 cd %ORIG%
-rm %GOBIN%\src.exe
-rm %GOPATH%\src.exe
-rm %GOPATH%\nvm.exe
+rm "%GOBIN%\src.exe"
+rm "%GOPATH%\src.exe"
+rm "%GOPATH%\nvm.exe"
 
 REM Clean the dist directory
 rm -rf "%DIST%"
@@ -33,7 +33,7 @@ mkdir "%DIST%"
 
 REM Create the "noinstall" zip
 echo Generating nvm-noinstall.zip
-for /d %%a in (%GOBIN%) do (buildtools\zip -j -9 -r "%DIST%\nvm-noinstall.zip" "%CD%\LICENSE" "%%a\*" -x "%GOBIN%\nodejs.ico")
+for /d %%a in ("%GOBIN%") do (buildtools\zip -j -9 -r "%DIST%\nvm-noinstall.zip" "%CD%\LICENSE" %%a\* -x "%GOBIN%\nodejs.ico")
 
 REM Create the installer
 echo Generating nvm-setup.zip
